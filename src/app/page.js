@@ -4,6 +4,7 @@
 'use client';
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Navbar,
   NavbarBrand,
@@ -20,32 +21,21 @@ import {
   DarkThemeToggle
 } from "flowbite-react";
 import CustomCard from "./components/Card";
-import { useState } from "react";
 
 export default function Home() {
 
   const [items, setItems] = useState([]);
-  const tokenUrl = 'https://tdx.transportdata.tw/auth/realms/TDXConnect/protocol/openid-connect/token';
-  const apiUrl = 'https://tdx.transportdata.tw/api/basic/v2/Tourism/ScenicSpot/YunlinCounty'
+  const tokenUrl = '';
+  const apiUrl = ''
 
   useEffect(() => {
-    const getToken = async () => {
-      const clientId = process.env.TDX_CLIENT_ID;
-      const clientSecret = process.env.TDX_CLIENT_SECRET;
-
-      const tokenParams = new URLSearchParams();
-      tokenParams.append('grant_type', 'client_credentials');
-      tokenParams.append('client_id', clientId);
-      tokenParams.append('client_secret', clientSecret);
-
-      const tokenResponse = await fetch(tokenUrl, {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/x-www-form-urlencoded'
-        },
-        body: tokenParams.toString()
-      });
-    };
+    async function fetchData() {
+      const response = await fetch('api/items');
+      const data = await response.json();
+      console.log(data);
+      setItems(data);
+    }
+    fetchData();
   }, []);
 
   return (
@@ -55,7 +45,7 @@ export default function Home() {
         <div className="container mx-auto">
           <Navbar fluid className="bg-cyan-800">
             <NavbarBrand as={Link} href="/">
-              <img src="https://www.yuntech.edu.tw/images/website_png/Group_640.png" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" />
+              <Image src="https://www.yuntech.edu.tw/images/website_png/Group_640.png" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" />
               <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Flowbite React</span>
             </NavbarBrand>
             <NavbarToggle />
@@ -78,19 +68,19 @@ export default function Home() {
       {/************* Carousel *************/}
       <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
         <Carousel>
-          <img src="/banner/banner-1.jpg" alt="由 WU PEI HSUAN - 自己的作品, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=110297869" />
-          <img src="/banner/banner-2.jpg" alt="由 Outlookxp - 自己的作品, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=117153671" />
-          <img src="/banner/banner-3.jpg" alt="由 Fcuk1203 - 自己的作品, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=17302330" />
-          <img src="/banner/banner-4.jpg" alt="由 張雅倫 - 自己的作品, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=94449542" />
-          <img src="/banner/banner-5.jpg" alt="由 Ifatson - 自己的作品, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=112645436" />
+          <Image src="/banner/banner-1.jpg" alt="由 WU PEI HSUAN - 自己的作品, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=110297869" />
+          <Image src="/banner/banner-2.jpg" alt="由 Outlookxp - 自己的作品, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=117153671" />
+          <Image src="/banner/banner-3.jpg" alt="由 Fcuk1203 - 自己的作品, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=17302330" />
+          <Image src="/banner/banner-4.jpg" alt="由 張雅倫 - 自己的作品, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=94449542" />
+          <Image src="/banner/banner-5.jpg" alt="由 Ifatson - 自己的作品, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=112645436" />
         </Carousel>
       </div>
 
       {/************* Card *************/}
       <div className="bg-white">
         <div className="container mx-auto grid grid-cols-4 gap-4">
-          {items.map(item =>
-            <Card
+          {items.map((item, index) =>
+            <Card item={item} key={index}
               className="max-w-sm"
               imgAlt={item.Picture.PictureDescription1}
               imgSrc={item.Picture.PictureUrl1}
@@ -118,8 +108,8 @@ export default function Home() {
 
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          {items.map(item =>
-            <CustomCard item={item} />
+          {items.map((item, index) =>
+            <CustomCard item={item} key={index} />
           )}
         </div>
       </div>
