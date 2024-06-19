@@ -1,39 +1,131 @@
+/*
+  @author 廖倚詮 <B11053020@gemail.yuntech.edu.tw>
+*/
+'use client';
+import { useState, useEffect } from "react";
+import Link from "next/link";
 import Image from "next/image";
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarCollapse,
+  NavbarLink,
+  NavbarToggle,
+  Footer,
+  FooterCopyright,
+  FooterLink,
+  FooterLinkGroup,
+  Carousel,
+  Button,
+  Card,
+  DarkThemeToggle
+} from "flowbite-react";
+import CustomCard from "./components/Card";
 
 export default function Home() {
+
+  const [items, setItems] = useState([]);
+  const tokenUrl = '';
+  const apiUrl = ''
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch('api/items');
+      const data = await response.json();
+      console.log(data);
+      setItems(data);
+    }
+    fetchData();
+  }, []);
+
   return (
-    <nav className="bg-white border-gray-200 dark:bg-gray-900">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
-        </a>
-        <button data-collapse-toggle="navbar-default" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
-          <span className="sr-only">Open main menu</span>
-          <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
-          </svg>
-        </button>
-        <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <li>
-              <a href="#" className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Home</a>
-            </li>
-            <li>
-              <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">About</a>
-            </li>
-            <li>
-              <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Services</a>
-            </li>
-            <li>
-              <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Pricing</a>
-            </li>
-            <li>
-              <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Contact</a>
-            </li>
-          </ul>
+    <>
+      {/************* Navbar *************/}
+      <div className="bg-white">
+        <div className="bg-cyan-600">
+          <div className="container mx-auto">
+            <Navbar fluid className="bg-cyan-800">
+              <NavbarBrand as={Link} href="/">
+                <Image width="250" height="4" src="https://www.yuntech.edu.tw/images/website_png/Group_640.png" className="mr-3 sm:h-9" alt="Flowbite React Logo" />
+                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Flowbite React</span>
+              </NavbarBrand>
+              <NavbarToggle />
+              <NavbarCollapse >
+                <NavbarLink as={Link} href="#" className="text-white">
+                  <span className="px-3 py-1 hover:text-yellow-500 hover:border-b hover:border-yellow-500">景點</span>
+                </NavbarLink>
+                <NavbarLink href="#" className="text-white">
+                  <span className="px-3 py-1 hover:text-yellow-500 hover:border-b hover:border-yellow-500">交通</span>
+                </NavbarLink>
+                <NavbarLink href="#" className="text-white">
+                  <span className="px-3 py-1 hover:text-yellow-500 hover:border-b hover:border-yellow-500">關於我們</span>
+                </NavbarLink>
+              </NavbarCollapse>
+              <DarkThemeToggle />
+            </Navbar>
+          </div>
         </div>
+
+        {/************* Carousel *************/}
+        <div className="bg-cyan-600 h-56 sm:h-64 xl:h-80 2xl:h-96">
+          <Carousel>
+            <Image width="2000" height="20" src="/banner/banner-1.jpg" alt="由 WU PEI HSUAN - 自己的作品, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=110297869" />
+            <Image width="2000" height="20" src="/banner/banner-2.jpg" alt="由 Outlookxp - 自己的作品, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=117153671" />
+            <Image width="2000" height="20" src="/banner/banner-3.jpg" alt="由 Fcuk1203 - 自己的作品, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=17302330" />
+            <Image width="2000" height="20" src="/banner/banner-4.jpg" alt="由 張雅倫 - 自己的作品, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=94449542" />
+            <Image width="2000" height="20" src="/banner/banner-5.jpg" alt="由 Ifatson - 自己的作品, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=112645436" />
+          </Carousel>
+        </div>
+
+        {/************* Card *************/}
+        {/* <div className="bg-white mt-16">
+          <div className="container mx-auto grid grid-cols-4 gap-4">
+            {items.map((item, index) =>
+              <Card item={item} key={index}
+                className="max-w-sm"
+                imgAlt={item.Picture.PictureDescription1}
+                imgSrc={item.Picture.PictureUrl1}
+              >
+                <h5 className="mx-auto text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  {item.ScenicSpotName}
+                </h5>
+                <p className="font-normal text-gray-700 dark:text-gray-400">
+                  {item.DescriptionDetail.length > 90 ? item.DescriptionDetail.substring(0, 90) + '...' : item.DescriptionDetail}
+                </p>
+                <Button>
+                  Read more
+                  <svg className="-mr-1 ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      fillRule="evenodd"
+                      d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </Button>
+              </Card>
+            )}
+          </div>
+        </div> */}
+
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {items.map((item, index) =>
+              <CustomCard item={item} key={index} />
+            )}
+          </div>
+        </div>
+
+        {/************* Footer *************/}
+        <Footer container>
+          <FooterCopyright href="#" by="Flowbite™" year={2022} />
+          <FooterLinkGroup>
+            <FooterLink href="#">About</FooterLink>
+            <FooterLink href="#">Privacy Policy</FooterLink>
+            <FooterLink href="#">Licensing</FooterLink>
+            <FooterLink href="#">Contact</FooterLink>
+          </FooterLinkGroup>
+        </Footer>
       </div>
-    </nav>
+    </>
   );
 }
